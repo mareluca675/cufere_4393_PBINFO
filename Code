@@ -1,0 +1,122 @@
+#include <fstream>
+
+using namespace std;
+
+int main()
+{
+    int c, n, x, etc[101]{};
+    
+    ifstream cin("cufere.in");
+    ofstream cout("cufere.out");
+    
+    cin >> c >> n;
+    
+    if(c == 1){
+        for(int i = 1; i <= 27 * n; i ++){
+            cin >> x;
+            
+            if(x)
+            {
+                etc[x % 100] += (x / 100 % 100);
+            }
+            
+        }
+        
+        for(int i = 10; i <= 99; i ++){
+            if(etc[i] != 0){
+                cout << i << ' ' << etc[i] << endl;
+            }
+        }
+        
+        return 0;
+    }
+    else{
+        char p[101]{};
+
+        p[0] = 1;
+        p[1] = 1;
+        
+        for(int i = 2; i <= 100; i ++){
+            if(p[i] == 0){
+                for(int j = 2; i * j <= 100; j ++){
+                    p[i * j] = 1;
+                }
+            }
+        }
+
+        int r = 0, rn = 0;
+        
+        for(int i = 1; i <= 27 * n; i ++){
+            cin >> x;
+            
+            if(x)
+            {
+                etc[x % 100] += (x / 100 % 100);
+            }
+        }
+        
+        for(int i = 10; i <= 99; i ++){
+            if(etc[i]){
+                if(p[i] == 0){
+                    while(etc[i] >= 16){
+                        cout << 16 << i << ' ';
+                        r ++;
+                        rn ++;
+                        if(r == 9 ){
+                            r = 0;
+                            cout << endl;
+                        }
+                        etc[i] -= 16;
+                    }
+                    
+                    if(etc[i]){
+                        cout << etc[i] << i << ' ';
+                        rn ++;
+                        r ++;
+                        if(r == 9 ){
+                            r = 0;
+                            cout << endl;
+                        }
+                    }
+                }
+                else{
+                    while(etc[i] >= 64){
+                        cout << 64 << i << ' ';
+                        rn ++;
+                        r ++;
+                        if(r == 9 ){
+                            r = 0;
+                            cout << '\n';
+                        }
+                        etc[i] -= 64;
+                    }
+                    
+                    if(etc[i]){
+                        cout << etc[i] << i << ' ';
+                        rn ++;
+                        r ++;
+                        if(r == 9 ){
+                            r = 0;
+                            cout << '\n';
+                        }
+                    }
+                }
+            }
+        }
+        
+        while(rn < 27 * n){
+            if(r == 9 ){
+                r = 0;
+                cout << '\n';
+            }
+            
+            r ++;
+            rn ++;
+            cout << 0 << ' ';
+        }
+        
+        return 0;
+    }
+    
+    return 0;
+}
